@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import "./style.css"
+import "./style.scss"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import gsap from 'gsap';
 
@@ -13,8 +13,19 @@ const material = new THREE.MeshStandardMaterial({
   roughness: 0.7
 })
 
+// Create object on sphere
+const objectGeometry = new THREE.BoxGeometry(1, 1, 1)
+const objectMaterial = new THREE.MeshStandardMaterial({
+color: '#00ff83',
+roughness: 0.7
+})
+
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+const object = new THREE.Mesh(objectGeometry, objectMaterial)
+object.position.set(0, 3, 0)
+scene.add(object)
 
 // Sizes
 const sizes = {
@@ -73,6 +84,7 @@ loop()
 // Timeline
 const t1 = gsap.timeline({defaults: {duration: 1}})
 t1.fromTo(mesh.scale, {z:0, x:0, y:0}, {z:1, x:1, y:1})
+t1.fromTo(object.scale, {z:0, x:0, y:0}, {z:1, x:1, y:1})
 t1.fromTo('nav', {y: '-100%'}, {y: '0%'})
 t1.fromTo(".title", {opacity: 0}, {opacity: 1})
 
