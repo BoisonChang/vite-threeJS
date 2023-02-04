@@ -3,7 +3,7 @@ import "./style.scss"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import gsap from 'gsap';
 
-// Try2
+// Try3
 // Scene
 const scene  = new THREE.Scene();
 
