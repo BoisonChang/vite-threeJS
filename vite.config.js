@@ -1,5 +1,4 @@
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-    base: './',
-  })
+// vite.config.js
+export default {
+    // 配置选项
+  }
