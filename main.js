@@ -24,9 +24,6 @@ roughness: 0.7
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
-const object = new THREE.Mesh(objectGeometry, objectMaterial)
-object.position.set(0, 3, 0)
-scene.add(object)
 
 // Sizes
 const sizes = {
