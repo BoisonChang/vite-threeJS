@@ -30,6 +30,9 @@ const material = new THREE.MeshStandardMaterial({
     shininess :0
 })
 
+const materialBg = new THREE.MeshBasicMaterial({
+  map: worldTexture
+});
 
 // Create a moon using the sphere geometry and material
 const moon = new THREE.Mesh(geometry, material)
@@ -43,6 +46,7 @@ const sizes = {
   height: window.innerHeight
 }
 
+
 // Create a point light with specified color, intensity, and distance
 const light = new THREE.DirectionalLight(0xFFFFFF, 1);
 // Set the position of the light
@@ -54,12 +58,11 @@ scene.add(light);
 
 
 // Create a perspective camera with specified field of view, aspect ratio, near and far clipping plane
-const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height , 0.1, 100)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height , 0.1, 100)
 // Set the position of the camera along the z-axis
-camera.position.z = 20
+camera.position.z = 10
 // Add the camera to the scene
 scene.add(camera)
-
 
 
 // Renderer
@@ -104,20 +107,29 @@ window.addEventListener('resize', () => {
 moon.rotation.x = 3.1415*0.02;
 moon.rotation.y = 3.1415*1.54;
 
+const skydomeTexture = new THREE.TextureLoader().load('https://storage.googleapis.com/umas_public_assets/michaelBay/free_star_sky_hdri_spherical_map_by_kirriaa_dbw8p0w%20(1).jpg')
+// 帶入材質，設定內外面
+const skydomeMaterial = new THREE.MeshBasicMaterial( { map: skydomeTexture, side: THREE.DoubleSide})
+const skydomeGeometry = new THREE.SphereGeometry(50,50,50)
+const skydome = new THREE.Mesh(skydomeGeometry, skydomeMaterial);
+scene.add(skydome);
 
 // Create a loop for the animation
-const loop = () => {
+const animate = () => {
   moon.rotation.y += 0.01;
   moon.rotation.x += 0.0005;
+  skydome.rotation.y += 0.001
   // Update the camera controls
   controls.update()
   // Render the scene and camera
   renderer.render(scene, camera)
   // Request the next animation frame
-  window.requestAnimationFrame(loop)
+  window.requestAnimationFrame(animate)
 }
 // Start the animation loop
-loop()
+animate()
+
+
 
 
 // Timeline
@@ -128,9 +140,13 @@ t1.fromTo(moon.scale, {z:0, x:0, y:0}, {z:1, x:1, y:1})
 t1.fromTo('nav', {y: '-100%'}, {y: '0%'})
 // animate opacity of element with class .title from 0 to 1 over 1 second
 t1.fromTo(".title", {opacity: 0}, {opacity: 1})
+
+
+
+
 // Mouse Animation
 let mouseDown = false;
-let rgb = [];
+// let rgb = [];
 // // set mouseDown to true when mouse button is down
 // window.addEventListener('mousedown', () => {mouseDown = true});
 // // set mouseDown to false when mouse button is up
@@ -150,3 +166,7 @@ let rgb = [];
 //     gsap.to(moon.material.color, {r: newColor.r, g: newColor.g, b: newColor.b});
 //   }
 // })
+
+
+
+
