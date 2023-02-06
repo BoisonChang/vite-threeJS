@@ -4,15 +4,32 @@ import "./style.css"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import gsap from 'gsap';
 
+var textureURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/lroc_color_poles_1k.jpg"; 
+var displacementURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/ldem_3_8bit.jpg"; 
+var worldURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/hipp8_s.jpg"
+
 // Create a new THREE.js scene
 const scene  = new THREE.Scene();
 // Create a sphere geometry with specified size and detail
 const geometry = new THREE.SphereGeometry(3, 64, 64)
 // Create a material for the sphere with specified color and roughness
+
+var textureLoader = new THREE.TextureLoader();
+var texture = textureLoader.load( textureURL );
+var displacementMap = textureLoader.load( displacementURL );
+var worldTexture = textureLoader.load( worldURL );
+
+
 const material = new THREE.MeshStandardMaterial({
-  color: '#00ff83',
-  roughness: 0.7
+  color: 0xffffff,
+  map: texture, displacementMap: displacementMap,
+  displacementScale: 0.06,
+  bumpMap: displacementMap,
+  bumpScale: 0.04,
+    reflectivity:0, 
+    shininess :0
 })
+
 
 // Create a mesh using the sphere geometry and material
 const mesh = new THREE.Mesh(geometry, material)
@@ -30,7 +47,7 @@ const light = new THREE.PointLight(0xfffff, 1, 100)
 // Set the position of the light
 light.position.set(0, 10, 10)
 // Increase the intensity of the light
-light.intensity = 1.25
+light.intensity = 2
 // Add the light to the scene
 scene.add(light)
 
