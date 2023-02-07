@@ -231,10 +231,8 @@ const clickHandler = () => {
         quote.innerText = '用手指轉一轉'
         btn.innerText = '找靈感'
       }
-      quote.innerText = 'Give it a spin'
       status = 'rotate'
       controls.enabled = true;
-
       animate()
     } else if(status === 'rotate') {
       status = 'stop'
