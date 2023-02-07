@@ -9,18 +9,18 @@ const displacementURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/ldem
 const worldURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/hipp8_s.jpg"
 let status = 'rotate'
 
+// Init
 // Create a new THREE.js scene
 const scene  = new THREE.Scene();
 // Create a sphere geometry with specified size and detail
 const geometry = new THREE.SphereGeometry(3, 64, 64)
-// Create a material for the sphere with specified color and roughness
 
+
+// Sphere
+// Create a material for the sphere with specified color and roughness
 const textureLoader = new THREE.TextureLoader();
 const texture = textureLoader.load( textureURL );
 const displacementMap = textureLoader.load( displacementURL );
-const worldTexture = textureLoader.load( worldURL );
-
-
 const material = new THREE.MeshStandardMaterial({
   color: 0xffffff,
   map: texture, displacementMap: displacementMap,
@@ -30,12 +30,12 @@ const material = new THREE.MeshStandardMaterial({
     reflectivity:0, 
     shininess :0
 })
-
 // Create a moon using the sphere geometry and material
 const moon = new THREE.Mesh(geometry, material)
 // Add the moon to the scene
 scene.add(moon)
 
+// SkyDome
 const skydomeTexture = new THREE.TextureLoader().load('https://storage.googleapis.com/umas_public_assets/michaelBay/free_star_sky_hdri_spherical_map_by_kirriaa_dbw8p0w%20(1).jpg')
 // 帶入材質，設定內外面
 const skydomeMaterial = new THREE.MeshBasicMaterial( { map: skydomeTexture, side: THREE.DoubleSide})
@@ -62,15 +62,13 @@ light.intensity = 1.25
 scene.add(light);
 
 
+// Camera
 // Create a perspective camera with specified field of view, aspect ratio, near and far clipping plane
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height , 0.1, 100)
 // Set the position of the camera along the z-axis
 camera.position.z = 10
 // Add the camera to the scene
 scene.add(camera)
-
-
-
 
 
 // Renderer
@@ -85,6 +83,7 @@ renderer.setPixelRatio(2)
 renderer.render(scene, camera)
 
 
+// Controls
 // Create orbit controls for the camera
 const controls = new OrbitControls(camera, canvas)
 // // Enable damping effect in the controls
@@ -99,6 +98,7 @@ const controls = new OrbitControls(camera, canvas)
 // controls.autoRotateSpeed = 10
 
 
+// Action
 // Listen to window resize events
 window.addEventListener('resize', () => {
   // Update the size of the scene
@@ -110,12 +110,11 @@ window.addEventListener('resize', () => {
   // Update the size of the renderer
   renderer.setSize(sizes.width, sizes.height)
 })
-
-
 // moon.rotation.x = 3.1415*0.02;
 // moon.rotation.y = 3.1415*1.54;
 
 
+// Loop
 // Create a loop for the animation
 const animate = () => {
   console.log('status', status)
@@ -136,8 +135,6 @@ const animate = () => {
 animate()
 
 
-
-
 // Timeline
 const t1 = gsap.timeline({defaults: {duration: 1}})
 // animate scaling of object.scale from (0,0,0) to (1,1,1) over 1 second
@@ -146,8 +143,6 @@ t1.fromTo(moon.scale, {z:0, x:0, y:0}, {z:1, x:1, y:1})
 t1.fromTo('nav', {y: '-100%'}, {y: '0%'})
 // animate opacity of element with class .title from 0 to 1 over 1 second
 t1.fromTo([".title", ".btn"], {opacity: 0}, {opacity: 1})
-
-
 
 
 // Mouse Animation
