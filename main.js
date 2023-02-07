@@ -3,11 +3,13 @@ import * as THREE from 'three'
 import "./style.scss"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import gsap from 'gsap';
+import translate from 'translate-google-api';
 
 const textureURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/lroc_color_poles_1k.jpg"; 
 const displacementURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/ldem_3_8bit.jpg"; 
 const worldURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/hipp8_s.jpg"
 let status = 'rotate'
+let lang = 'en'
 
 // Init
 // Create a new THREE.js scene
@@ -170,21 +172,58 @@ let mouseDown = false;
 
 
 // Click Event
-const clickHandler = () => {
-  const quotes = [
-    "Every day is a journey, and the moon is just a stage.",
-    "A full moon is like a spotlight on the human condition.",
-    "The moon brings magic to life, but it also brings mystery.",
-    "The moon may be a friend for the night, but the sun is a friend forever.",
-    "The moon is always there, shining its light on us, no matter what we do."
-  ];
-  
-  const btn = document.querySelector("#btn");
-  const quote = document.querySelector(".title");
-  
+const btn = document.querySelector("#btn");
+const quote = document.querySelector(".title");
+const language = document.querySelector(".lang");
+const explore = document.querySelector(".explore");
+const sphere = document.querySelector('.sphere')
+const quotesEn = [
+  "Every day is a journey, and the moon is just a stage.",
+  "A full moon is like a spotlight on the human condition.",
+  "The moon brings magic to life, but it also brings mystery.",
+  "The moon may be a friend for the night, but the sun is a friend forever.",
+  "The moon is always there, shining its light on us, no matter what we do.",
+  "Under the moonlight, the night seems shorter and the heart feels lighter.",
+  "The moon brings out the beauty in the darkness and the light within us.",
+  "A crescent moon is a reminder that even the smallest sliver of light can make a difference.",
+  "The moon is a symbol of change and growth, just like the tides of life.",
+  "The moon is a silent witness to the passage of time and the changes it brings.",
+  "The moon is a constant companion, always there to light our way in the darkness.",
+  "The moon is a reminder of the cyclical nature of life, and the inevitability of change.",
+  "The moon is a symbol of mystery and enchantment, inviting us to dream and imagine.",
+  "The moon is a reminder of the delicate balance between light and dark, and the importance of finding harmony within ourselves.",
+  "A full moon is a symbol of completion, reminding us to celebrate our achievements and the milestones in our lives.",
+  "The moon is a symbol of the feminine, reminding us to embrace our intuition and inner wisdom.",
+  "The moon is a reminder of the power of nature, and the majesty of the universe.",
+  "The moon is a symbol of hope, reminding us that even in the darkest of nights, the light will always return.",
+  "The moon is a symbol of the eternal, reminding us that some things never change, no matter how much time passes.",
+  "The moon is a symbol of resilience, reminding us that even though it may wane, it will always wax again.",
+  "The moon is a symbol of mystery and the unknown, inviting us to explore the uncharted territories within ourselves.",
+  "The moon is a symbol of unity, reminding us that we are all connected by the same celestial body.",
+  "The moon is a reminder of the importance of letting go and embracing change, just like the tides.",
+];
+const quotesTW = [
+  "月圓人團圓，月缺人散散。",
+  "月高光明照，人高心情好。",
+  "月亮有陰晴圓缺，生活有喜怒哀樂。",
+  "月黑風高夜長，人靜心境安寧。",
+  "月圓人團圓，喜氣洋洋。",
+  "月圓影明朗，知識普遍宏開。",
+  "月有陰晴圓缺，情有陰陽秀。",
+  "月到中秋人團圓，美滿心情伴隨著。",
+  "月黑風高秋夜長，家人團聚心溫暖。",
+  "月亮如鑑，心境如月，圓滿生活。",
+  "月黑風高走馬路，總比月亮光芒好。",
+  "月亮好像一個盤子，有時是圓的，有時是半圓的。",
+  "月亮會亮，即使你沒有看到它。",
+  "月亮是一個藍色的燈，照亮夜空中的星星。",
+  "月亮會顯示在天空中，只有當夜幕降下"
+];
+
+const clickHandler = () => {  
   btn.addEventListener("click", function() {
     if(status === 'stop'){
-      quote.style.fontSize = "10vw";
+      quote.style.fontSize = "";
       quote.innerText = 'Give it a spin'
       status = 'rotate'
       controls.enabled = true;
@@ -193,7 +232,11 @@ const clickHandler = () => {
     } else if(status === 'rotate') {
       status = 'stop'
       quote.style.fontSize = "20px";
-      quote.innerHTML = quotes[Math.floor(Math.random() * quotes.length)];
+      if(lang === 'en'){
+        quote.innerHTML = quotesEn[Math.floor(Math.random() * quotesEn.length)];
+      } else {
+        quote.innerHTML = quotesTW[Math.floor(Math.random() * quotesTW.length)];
+      }
       controls.enabled = false;
       btn.innerText = 'Back' 
     }
@@ -202,4 +245,38 @@ const clickHandler = () => {
 clickHandler()
 
 
+// Click Lang 
+const clickLangHandler = () => {
 
+  
+  language.addEventListener("click",async function() {
+    if(lang === 'en'){
+      language.innerText = '繁體中文'
+      lang = 'tw'
+      if(status === 'stop'){
+        quote.innerText = quotesTW[Math.floor(Math.random() * quotesTW.length)];
+        btn.innerText = '重設'
+      } else {
+        quote.innerText = '轉一轉'
+        btn.innerText = '找方向'
+      }
+      explore.innerText = '探索'
+      sphere.innerText = '球球'
+    } else {
+      btn.innerText = 'Back'
+      explore.innerText = 'explore'
+      sphere.innerText = 'sphere'
+      if(status === 'stop'){
+        quote.innerText = quotesEn[Math.floor(Math.random() * quotesEn.length)];
+        btn.innerText = 'Back'
+      } else {
+        btn.innerText = 'Get Your Way'
+        quote.innerText = 'Give it a spin'
+      }
+
+      language.innerText = 'English'
+      lang = 'en'
+    }
+  });
+}
+clickLangHandler()

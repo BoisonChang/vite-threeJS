@@ -95,3 +95,14 @@ nav ul {
     margin-right: 40px;
   }
 }
+
+.lang {
+  cursor: pointer;
+  border: 1px solid #FFF;
+  padding: 2px 4px;
+  border-radius: 5px;
+  &:hover {
+    background-color: #FFFFFF;
+    color:  #1e1e1e;
+  }
+}
