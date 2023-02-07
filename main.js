@@ -258,7 +258,7 @@ const clickLangHandler = () => {
         btn.innerText = '重設'
       } else {
         quote.innerText = '轉一轉'
-        btn.innerText = '找方向'
+        btn.innerText = '找靈感'
       }
       explore.innerText = '探索'
       sphere.innerText = '球球'
