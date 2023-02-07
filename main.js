@@ -224,21 +224,28 @@ const clickHandler = () => {
   btn.addEventListener("click", function() {
     if(status === 'stop'){
       quote.style.fontSize = "";
+      if(lang === 'en'){
+        quote.innerText = 'Give it a spin'
+        btn.innerText = '找靈感'
+      } else {
+        quote.innerText = '用手指轉一轉'
+        btn.innerText = 'Get Your Way'
+      }
       quote.innerText = 'Give it a spin'
       status = 'rotate'
       controls.enabled = true;
-      btn.innerText = 'Get Your Way'
       animate()
     } else if(status === 'rotate') {
       status = 'stop'
       quote.style.fontSize = "20px";
       if(lang === 'en'){
         quote.innerHTML = quotesEn[Math.floor(Math.random() * quotesEn.length)];
+        btn.innerText = 'Back' 
       } else {
         quote.innerHTML = quotesTW[Math.floor(Math.random() * quotesTW.length)];
+        btn.innerText = '重設' 
       }
       controls.enabled = false;
-      btn.innerText = 'Back' 
     }
   });
 }
