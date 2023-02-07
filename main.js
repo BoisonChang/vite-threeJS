@@ -226,14 +226,15 @@ const clickHandler = () => {
       quote.style.fontSize = "";
       if(lang === 'en'){
         quote.innerText = 'Give it a spin'
-        btn.innerText = '找靈感'
+        btn.innerText = 'Get Your Way'
       } else {
         quote.innerText = '用手指轉一轉'
-        btn.innerText = 'Get Your Way'
+        btn.innerText = '找靈感'
       }
       quote.innerText = 'Give it a spin'
       status = 'rotate'
       controls.enabled = true;
+
       animate()
     } else if(status === 'rotate') {
       status = 'stop'
