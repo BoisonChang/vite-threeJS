@@ -235,7 +235,6 @@ const clickHandler = () => {
       controls.enabled = true;
       animate()
     } else if(status === 'rotate') {
-      status = 'stop'
       quote.style.fontSize = "20px";
       if(lang === 'en'){
         quote.innerHTML = quotesEn[Math.floor(Math.random() * quotesEn.length)];
@@ -244,6 +243,7 @@ const clickHandler = () => {
         quote.innerHTML = quotesTW[Math.floor(Math.random() * quotesTW.length)];
         btn.innerText = '重設' 
       }
+      status = 'stop'
       controls.enabled = false;
     }
   });
