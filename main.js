@@ -257,7 +257,7 @@ const clickLangHandler = () => {
         quote.innerText = quotesTW[Math.floor(Math.random() * quotesTW.length)];
         btn.innerText = '重設'
       } else {
-        quote.innerText = '轉一轉'
+        quote.innerText = '用手指轉一轉'
         btn.innerText = '找靈感'
       }
       explore.innerText = '探索'
