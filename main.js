@@ -31,23 +31,27 @@ const material = new THREE.MeshStandardMaterial({
     shininess :0
 })
 
-const materialBg = new THREE.MeshBasicMaterial({
-  map: worldTexture
-});
-
 // Create a moon using the sphere geometry and material
 const moon = new THREE.Mesh(geometry, material)
 // Add the moon to the scene
 scene.add(moon)
 
+const skydomeTexture = new THREE.TextureLoader().load('https://storage.googleapis.com/umas_public_assets/michaelBay/free_star_sky_hdri_spherical_map_by_kirriaa_dbw8p0w%20(1).jpg')
+// 帶入材質，設定內外面
+const skydomeMaterial = new THREE.MeshBasicMaterial( { map: skydomeTexture, side: THREE.DoubleSide})
+const skydomeGeometry = new THREE.SphereGeometry(50,50,50)
+const skydome = new THREE.Mesh(skydomeGeometry, skydomeMaterial);
+scene.add(skydome);
 
+
+// Sizes
 // Store the current width and height of the window in an object
 const sizes = {
   width: window.innerWidth,
   height: window.innerHeight
 }
 
-
+// Light
 // Create a point light with specified color, intensity, and distance
 const light = new THREE.DirectionalLight(0xFFFFFF, 1);
 // Set the position of the light
@@ -64,6 +68,9 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height , 0.1,
 camera.position.z = 10
 // Add the camera to the scene
 scene.add(camera)
+
+
+
 
 
 // Renderer
@@ -108,12 +115,6 @@ window.addEventListener('resize', () => {
 // moon.rotation.x = 3.1415*0.02;
 // moon.rotation.y = 3.1415*1.54;
 
-const skydomeTexture = new THREE.TextureLoader().load('https://storage.googleapis.com/umas_public_assets/michaelBay/free_star_sky_hdri_spherical_map_by_kirriaa_dbw8p0w%20(1).jpg')
-// 帶入材質，設定內外面
-const skydomeMaterial = new THREE.MeshBasicMaterial( { map: skydomeTexture, side: THREE.DoubleSide})
-const skydomeGeometry = new THREE.SphereGeometry(50,50,50)
-const skydome = new THREE.Mesh(skydomeGeometry, skydomeMaterial);
-scene.add(skydome);
 
 // Create a loop for the animation
 const animate = () => {
