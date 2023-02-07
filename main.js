@@ -1,12 +1,13 @@
 // Import the THREE.js library and additional dependencies
 import * as THREE from 'three'
-import "./style.css"
+import "./style.scss"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import gsap from 'gsap';
 
 const textureURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/lroc_color_poles_1k.jpg"; 
 const displacementURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/ldem_3_8bit.jpg"; 
 const worldURL = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/17271/hipp8_s.jpg"
+let status = 'rotate'
 
 // Create a new THREE.js scene
 const scene  = new THREE.Scene();
@@ -104,8 +105,8 @@ window.addEventListener('resize', () => {
 })
 
 
-moon.rotation.x = 3.1415*0.02;
-moon.rotation.y = 3.1415*1.54;
+// moon.rotation.x = 3.1415*0.02;
+// moon.rotation.y = 3.1415*1.54;
 
 const skydomeTexture = new THREE.TextureLoader().load('https://storage.googleapis.com/umas_public_assets/michaelBay/free_star_sky_hdri_spherical_map_by_kirriaa_dbw8p0w%20(1).jpg')
 // 帶入材質，設定內外面
@@ -116,6 +117,10 @@ scene.add(skydome);
 
 // Create a loop for the animation
 const animate = () => {
+  console.log('status', status)
+  if(status === 'stop'){
+    return
+  }
   moon.rotation.y += 0.01;
   moon.rotation.x += 0.0005;
   skydome.rotation.y += 0.001
@@ -139,7 +144,7 @@ t1.fromTo(moon.scale, {z:0, x:0, y:0}, {z:1, x:1, y:1})
 // animate movement of nav from y position -100% to 0% over 1 second
 t1.fromTo('nav', {y: '-100%'}, {y: '0%'})
 // animate opacity of element with class .title from 0 to 1 over 1 second
-t1.fromTo(".title", {opacity: 0}, {opacity: 1})
+t1.fromTo([".title", ".btn"], {opacity: 0}, {opacity: 1})
 
 
 
@@ -167,6 +172,38 @@ let mouseDown = false;
 //   }
 // })
 
+
+// Click Event
+const clickHandler = () => {
+  const quotes = [
+    "Every day is a journey, and the moon is just a stage.",
+    "A full moon is like a spotlight on the human condition.",
+    "The moon brings magic to life, but it also brings mystery.",
+    "The moon may be a friend for the night, but the sun is a friend forever.",
+    "The moon is always there, shining its light on us, no matter what we do."
+  ];
+  
+  const btn = document.querySelector("#btn");
+  const quote = document.querySelector(".title");
+  
+  btn.addEventListener("click", function() {
+    if(status === 'stop'){
+      quote.style.fontSize = "10vw";
+      quote.innerText = 'Give it a spin'
+      status = 'rotate'
+      controls.enabled = true;
+      btn.innerText = 'Get Your Way'
+      animate()
+    } else if(status === 'rotate') {
+      status = 'stop'
+      quote.style.fontSize = "20px";
+      quote.innerHTML = quotes[Math.floor(Math.random() * quotes.length)];
+      controls.enabled = false;
+      btn.innerText = 'Back' 
+    }
+  });
+}
+clickHandler()
 
 
 
