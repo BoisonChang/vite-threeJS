@@ -279,7 +279,6 @@ const clickLangHandler = () => {
         btn.innerText = 'Get Your Way'
         quote.innerText = 'Give it a spin'
       }
-
       language.innerText = 'English'
       lang = 'en'
     }
